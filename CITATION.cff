@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Chan"
+    given-names: "Agna"
+title: "FAERS Longevity Drug Safety Analysis"
+version: 1.0.0
+date-released: 2025-01-17
+doi: 10.5281/zenodo.XXXXXXX
+url: "https://github.com/biohackingmathematician/longevity-faers"
+abstract: "Computational pharmacovigilance analysis of longevity-relevant medications using FDA Adverse Event Reporting System (FAERS). Employs disproportionality analysis and multi-label machine learning to characterize adverse event profiles."
+keywords:
+  - pharmacovigilance
+  - FAERS
+  - drug safety
+  - longevity
+  - adverse events
+  - machine learning
+license: MIT
+repository-code: "https://github.com/agnachan/faers-longevity-analysis"
+

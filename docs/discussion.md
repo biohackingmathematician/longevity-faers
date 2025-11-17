@@ -1,10 +1,10 @@
-# Interpretation: Longevity, Performance, and AE Profiles
+# Results and Discussion
 
 ## Overview
 
-This analysis identifies adverse event signals from spontaneous reporting data. It does not constitute medical advice. Decisions about medication use should be made with a qualified healthcare provider considering individual health status, risk factors, and goals.
+This document presents the interpretation of adverse event signals identified through disproportionality analysis of FAERS data for longevity-relevant medications. Results represent signal detection (hypothesis generation) from a spontaneous reporting system and do not constitute medical advice or treatment recommendations.
 
-**Key Reminder:** FAERS is a spontaneous reporting system with no exposure denominator. Results represent signal detection (hypothesis generation), NOT incidence rates, NOT causal claims, and NOT treatment recommendations.
+**Methodological Note:** FAERS is a spontaneous reporting system with no exposure denominator. Results represent signal detection (hypothesis generation), NOT incidence rates, NOT causal claims, and NOT treatment recommendations. All analyses should be interpreted within this framework.
 
 ## Metformin: The Longevity Pioneer
 
@@ -16,16 +16,16 @@ This analysis identifies adverse event signals from spontaneous reporting data. 
 
 ### FAERS Signals
 - **Elevated GI AEs:** Expected, well-documented (nausea, diarrhea)
-- **Possible lactic acidosis signal:** Rare but serious (especially in renal impairment)
-- **LOW musculoskeletal signal:** Reassuring for training
+- **Lactic acidosis signal:** Rare but serious (especially in renal impairment)
+- **Low musculoskeletal signal:** Reassuring for training
 
 ### Performance Angle
 - GI burden may affect training nutrition timing
 - Lactic acidosis risk theoretically relevant for high-intensity exercise, but incidence extremely low in healthy individuals
 - Minimal impact on muscle function
 
-### Takeaway
-"Metformin shows expected GI side effects but reassuringly LOW musculoskeletal signals compared to statins, suggesting minimal impact on training capacity."
+### Summary
+Metformin shows expected GI side effects but reassuringly low musculoskeletal signals compared to statins, suggesting minimal impact on training capacity.
 
 ## Statins: Balancing CVD Protection and Myopathy Risk
 
@@ -35,7 +35,7 @@ This analysis identifies adverse event signals from spontaneous reporting data. 
 - Pleiotropic effects beyond cholesterol lowering
 
 ### FAERS Signals
-- **ELEVATED musculoskeletal AEs:** Myalgia, myopathy, rare rhabdomyolysis
+- **Elevated musculoskeletal AEs:** Myalgia, myopathy, rare rhabdomyolysis
 - **Moderate metabolic signals:** New-onset diabetes risk
 - **Low GI signals:** Generally well-tolerated GI-wise
 
@@ -44,8 +44,8 @@ This analysis identifies adverse event signals from spontaneous reporting data. 
 - CoQ10 co-supplementation sometimes mitigates muscle symptoms
 - Critical consideration for strength athletes
 
-### Takeaway
-"Statins exhibit the HIGHEST musculoskeletal AE signal among study drugs, consistent with known myopathy risk—a critical consideration for strength athletes."
+### Summary
+Statins exhibit the highest musculoskeletal AE signal among study drugs, consistent with known myopathy risk—a critical consideration for strength athletes.
 
 ## GLP-1 Agonists: Powerful Tools with GI Tradeoffs
 
@@ -56,7 +56,7 @@ This analysis identifies adverse event signals from spontaneous reporting data. 
 - Metabolic benefits
 
 ### FAERS Signals
-- **DOMINANT GI AEs:** Nausea, vomiting, diarrhea (overwhelming signal)
+- **Dominant GI AEs:** Nausea, vomiting, diarrhea (overwhelming signal)
 - **Some pancreatitis signals:** Low absolute risk but notable
 - **Emerging signals:** Possible thyroid signals (medullary cancer in rodents, human data unclear)
 
@@ -65,8 +65,8 @@ This analysis identifies adverse event signals from spontaneous reporting data. 
 - Appetite suppression could hinder muscle gain
 - May limit utility for athletes prioritizing muscle mass
 
-### Takeaway
-"GLP-1s show overwhelming GI burden in FAERS, which may limit utility for athletes prioritizing muscle mass, despite cardiometabolic benefits."
+### Summary
+GLP-1 agonists show overwhelming GI burden in FAERS, which may limit utility for athletes prioritizing muscle mass, despite cardiometabolic benefits.
 
 ## SGLT2 Inhibitors: Cardiorenal Benefits, Keto Concerns
 
@@ -79,15 +79,15 @@ This analysis identifies adverse event signals from spontaneous reporting data. 
 ### FAERS Signals
 - **Moderate metabolic AEs:** DKA risk, especially with low-carb diets
 - **Genitourinary infections:** Expected mechanism (glucose in urine)
-- **LOW musculoskeletal signals:** Favorable profile
+- **Low musculoskeletal signals:** Favorable profile
 
 ### Performance Angle
 - DKA risk elevated with ketogenic diets (common in bodybuilding)
 - Hydration status critical (SGLT2i causes osmotic diuresis)
 - Favorable muscle profile
 
-### Takeaway
-"SGLT2i show favorable musculoskeletal profile but notable DKA signal—caution needed in athletes using low-carb protocols."
+### Summary
+SGLT2 inhibitors show favorable musculoskeletal profile but notable DKA signal—caution needed in athletes using low-carb protocols.
 
 ## Implications for Optimization
 

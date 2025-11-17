@@ -1,4 +1,9 @@
-"""Run disproportionality analysis (Notebook 02)."""
+"""
+Disproportionality Analysis Script
+
+Executes disproportionality analysis (ROR/PRR) for longevity-relevant drugs
+using FAERS data. Generates volcano plots, heatmaps, and results tables.
+"""
 
 import pandas as pd
 import numpy as np
@@ -9,19 +14,27 @@ import seaborn as sns
 from pathlib import Path
 import sys
 import yaml
+import logging
 
 sys.path.insert(0, str(Path(__file__).parent / 'src'))
 
 from src.models.disproportionality import run_disproportionality_analysis
 from src.viz.volcano_plots import plot_volcano, plot_heatmap
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 # Set style
 sns.set_style('whitegrid')
 plt.rcParams['figure.figsize'] = (12, 8)
 
-print("="*60)
-print("Disproportionality Analysis")
-print("="*60)
+logger.info("="*60)
+logger.info("Disproportionality Analysis")
+logger.info("="*60)
 
 # Load config
 config_path = Path(__file__).parent / 'config' / 'data_config.yaml'
@@ -30,16 +43,16 @@ with open(config_path, 'r') as f:
 
 # Load processed data
 data_path = Path(__file__).parent / config['data_paths']['processed'] / 'drug_ae_counts.csv'
-print(f"\nLoading data from {data_path}...")
+logger.info(f"Loading data from {data_path}")
 df = pd.read_csv(data_path)
 
-print(f"Data shape: {df.shape}")
-print(f"\nDrugs: {df['normalized_name'].unique()}")
-print(f"\nAE Categories: {df['ae_category'].unique()}")
+logger.info(f"Data shape: {df.shape}")
+logger.info(f"Drugs analyzed: {len(df['normalized_name'].unique())}")
+logger.info(f"AE categories: {len(df['ae_category'].unique())}")
 
 # Prepare data for disproportionality analysis
-# We need to expand the counts into individual rows
-print("\nExpanding drug-AE counts into individual records...")
+# Expand counts into individual records for contingency table construction
+logger.info("Expanding drug-AE counts into individual records...")
 expanded_data = []
 for _, row in df.iterrows():
     for _ in range(row['count']):
@@ -49,15 +62,16 @@ for _, row in df.iterrows():
         })
 
 df_expanded = pd.DataFrame(expanded_data)
-print(f"Expanded to {len(df_expanded)} records")
+logger.info(f"Expanded to {len(df_expanded):,} records")
 
 # Get unique drugs and categories
 drug_list = df['normalized_name'].unique().tolist()
 ae_list = df['ae_category'].unique().tolist()
 
-print(f"\nAnalyzing {len(drug_list)} drugs × {len(ae_list)} AE categories...")
+logger.info(f"Analyzing {len(drug_list)} drugs × {len(ae_list)} AE categories")
 
 # Run analysis
+logger.info("Computing disproportionality metrics...")
 results = run_disproportionality_analysis(
     df_expanded,
     drug_col='normalized_name',
@@ -68,17 +82,17 @@ results = run_disproportionality_analysis(
     min_drug_reports=10
 )
 
-print(f"\nFound {len(results)} significant drug-event pairs")
-print(f"Signals: {results['is_signal'].sum()}")
+logger.info(f"Found {len(results)} significant drug-event pairs")
+logger.info(f"Signals detected: {results['is_signal'].sum()}")
 
 # Save results
 results_path = Path(__file__).parent / 'results' / 'tables' / 'disproportionality_results.csv'
 results_path.parent.mkdir(parents=True, exist_ok=True)
 results.to_csv(results_path, index=False)
-print(f"\nSaved results to {results_path}")
+logger.info(f"Results saved to {results_path}")
 
 # Create visualizations
-print("\nCreating visualizations...")
+logger.info("Generating visualizations...")
 figures_dir = Path(__file__).parent / 'results' / 'figures'
 figures_dir.mkdir(parents=True, exist_ok=True)
 
@@ -94,9 +108,9 @@ for drug in top_drugs:
         save_path = figures_dir / f'volcano_{drug.lower().replace(" ", "_")}.png'
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         plt.close()
-        print(f"  ✓ Saved volcano plot for {drug}")
+        logger.info(f"Saved volcano plot: {save_path.name}")
     except Exception as e:
-        print(f"  ✗ Error creating volcano plot for {drug}: {e}")
+        logger.error(f"Error creating volcano plot for {drug}: {e}")
 
 # Heatmap
 try:
@@ -109,9 +123,9 @@ try:
     save_path = figures_dir / 'heatmap_all_drugs.png'
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.close()
-    print(f"  ✓ Saved heatmap")
+    logger.info(f"Saved heatmap: {save_path.name}")
 except Exception as e:
-    print(f"  ✗ Error creating heatmap: {e}")
+    logger.error(f"Error creating heatmap: {e}")
 
 # Save top 50 signals per drug
 tables_dir = Path(__file__).parent / 'results' / 'tables'
@@ -122,9 +136,9 @@ for drug in drug_list:
     if len(drug_results) > 0:
         save_path = tables_dir / f'{drug.lower().replace(" ", "_")}_top50_signals.csv'
         drug_results.to_csv(save_path, index=False)
-        print(f"  ✓ Saved top signals for {drug}: {len(drug_results)} pairs")
+        logger.info(f"Saved top signals for {drug}: {len(drug_results)} pairs")
 
-print("\n" + "="*60)
-print("Disproportionality analysis complete!")
-print("="*60)
+logger.info("="*60)
+logger.info("Disproportionality analysis complete")
+logger.info("="*60)
 

@@ -30,14 +30,14 @@ ENV/
 .ipynb_checkpoints/
 *.ipynb_checkpoints/
 
-# Data (too large for git)
+# Data (too large for git - users download separately)
 data/
 *.parquet
 *.zip
 # Exclude large data CSVs but keep small result CSVs
 data/**/*.csv
 data/**/*.txt
-# Keep results (small files)
+# Keep results (small files, important for reproducibility)
 !results/**/*.csv
 
 # IDE
@@ -51,10 +51,10 @@ data/**/*.txt
 .DS_Store
 Thumbs.db
 
-# Results (keep figures and tables - they're small and important for reproducibility)
-# results/figures/
-# results/tables/
-
 # Logs
 *.log
 
+# Test outputs
+.pytest_cache/
+.coverage
+htmlcov/

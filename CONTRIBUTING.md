@@ -1,49 +1,75 @@
-# Development Setup
+# Contributing Guidelines
 
-## Environment
+Thank you for your interest in contributing to this project. This document provides guidelines for contributing.
 
-Requires Python 3.10+
+## Development Setup
 
-### Option 1: pip
+### Prerequisites
+- Python 3.10 or higher
+- Git
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/biohackingmathematician/longevity-faers.git
+cd faers-longevity-analysis
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
 pip install -r requirements.txt
-```
-
-### Option 2: Poetry
-
-```bash
-poetry install
-poetry shell
-```
-
-## Dependencies
-
-- pandas / numpy (data wrangling)
-- scikit-learn, xgboost (ML)
-- matplotlib, seaborn, plotly (viz)
-- pyyaml (config)
-- requests (FAERS download)
-
-## Running Tests
-
-```bash
-pytest tests/
 ```
 
 ## Code Style
 
-- Black formatter: `black src/`
-- Flake8 linter: `flake8 src/`
+- Follow PEP 8 style guidelines
+- Use type hints for function signatures
+- Write docstrings for all functions and classes
+- Maximum line length: 100 characters
 
-## Data
+### Formatting
 
-FAERS data is NOT included in repo (too large). Run `scripts/download_faers.py` to fetch.
+We use `black` for code formatting:
 
-## Workflow
+```bash
+black src/ scripts/
+```
 
-1. Download FAERS data: `python scripts/download_faers.py`
-2. Unpack data: `python scripts/unpack_faers.py`
-3. Build datasets: `python scripts/build_dataset.py`
-4. Run analysis: Use Jupyter notebooks in `notebooks/`
+### Linting
 
+We use `flake8` for linting:
+
+```bash
+flake8 src/ scripts/
+```
+
+## Testing
+
+Run the test suite:
+
+```bash
+python test_functionality.py
+```
+
+## Pull Request Process
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Ensure tests pass
+5. Commit your changes (`git commit -m 'Add amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
+
+## Code of Conduct
+
+- Be respectful and inclusive
+- Focus on constructive feedback
+- Maintain professional communication
+
+## Questions
+
+If you have questions, please open an issue on GitHub.

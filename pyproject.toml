@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [
-    {name = "Your Name", email = "your.email@example.com"}
+    {name = "Agna Chan", email = "agna.chan@example.com"}
 ]
 keywords = ["pharmacovigilance", "FAERS", "drug safety", "longevity", "adverse events"]
 classifiers = [
@@ -55,9 +55,9 @@ shap = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/faers-longevity-analysis"
-Repository = "https://github.com/yourusername/faers-longevity-analysis"
-Issues = "https://github.com/yourusername/faers-longevity-analysis/issues"
+Homepage = "https://github.com/biohackingmathematician/longevity-faers"
+Repository = "https://github.com/biohackingmathematician/longevity-faers"
+Issues = "https://github.com/biohackingmathematician/longevity-faers/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]

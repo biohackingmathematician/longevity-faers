@@ -1,4 +1,9 @@
-"""Test core functionality with mock data."""
+"""
+Test suite for FAERS Longevity Drug Safety Analysis.
+
+Validates core functionality including disproportionality calculations,
+data processing, and feature engineering using mock data.
+"""
 
 import sys
 from pathlib import Path
@@ -7,6 +12,7 @@ import numpy as np
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent / 'src'))
+
 
 def test_disproportionality():
     """Test disproportionality calculations."""
@@ -19,12 +25,12 @@ def test_disproportionality():
         ror, ci_low, ci_high = compute_ror(10, 100, 50, 1000)
         assert not np.isnan(ror), "ROR should not be NaN"
         assert ci_low < ror < ci_high, "CI should bracket ROR"
-        print(f"  ✓ compute_ror: ROR={ror:.2f}, CI=[{ci_low:.2f}, {ci_high:.2f}]")
+        print(f"  PASS: compute_ror: ROR={ror:.2f}, CI=[{ci_low:.2f}, {ci_high:.2f}]")
         
         # Test PRR calculation
         prr, chi2 = compute_prr(10, 100, 50, 1000)
         assert not np.isnan(prr), "PRR should not be NaN"
-        print(f"  ✓ compute_prr: PRR={prr:.2f}, chi2={chi2:.2f}")
+        print(f"  PASS: compute_prr: PRR={prr:.2f}, chi2={chi2:.2f}")
         
         # Test contingency table
         df = pd.DataFrame({
@@ -34,14 +40,15 @@ def test_disproportionality():
         a, b, c, d = build_contingency_table(df, 'drug', 'A', 'event', 'X')
         assert a == 2, f"Expected a=2, got {a}"
         assert b == 1, f"Expected b=1, got {b}"
-        print(f"  ✓ build_contingency_table: a={a}, b={b}, c={c}, d={d}")
+        print(f"  PASS: build_contingency_table: a={a}, b={b}, c={c}, d={d}")
         
         return True
     except Exception as e:
-        print(f"  ✗ Error: {e}")
+        print(f"  FAIL: Error: {e}")
         import traceback
         traceback.print_exc()
         return False
+
 
 def test_dedupe_cases():
     """Test case deduplication."""
@@ -58,18 +65,18 @@ def test_dedupe_cases():
         
         deduped = dedupe_cases(demo)
         assert len(deduped) == 3, f"Expected 3 cases, got {len(deduped)}"
-        # Check that case 1 has the latest date (2020-02-01)
         case1_date = deduped[deduped['caseid'] == 1]['fda_dt'].iloc[0]
         expected_date = pd.to_datetime('2020-02-01')
         assert case1_date == expected_date, f"Should keep latest date, got {case1_date}, expected {expected_date}"
-        print(f"  ✓ dedupe_cases: {len(deduped)} unique cases")
+        print(f"  PASS: dedupe_cases: {len(deduped)} unique cases")
         
         return True
     except Exception as e:
-        print(f"  ✗ Error: {e}")
+        print(f"  FAIL: Error: {e}")
         import traceback
         traceback.print_exc()
         return False
+
 
 def test_feature_engineering():
     """Test feature engineering functions."""
@@ -83,20 +90,21 @@ def test_feature_engineering():
         age_groups = bin_age(ages)
         assert len(age_groups) == 6, "Should have 6 age groups"
         assert age_groups.iloc[0] == "<18", "First should be <18"
-        print(f"  ✓ bin_age: {age_groups.value_counts().to_dict()}")
+        print(f"  PASS: bin_age: {age_groups.value_counts().to_dict()}")
         
         # Test year extraction
         dates = pd.Series(['2020-01-15', '2021-06-20', None])
         years = extract_year(dates)
         assert years.iloc[0] == 2020, "First year should be 2020"
-        print(f"  ✓ extract_year: {years.tolist()}")
+        print(f"  PASS: extract_year: {years.tolist()}")
         
         return True
     except Exception as e:
-        print(f"  ✗ Error: {e}")
+        print(f"  FAIL: Error: {e}")
         import traceback
         traceback.print_exc()
         return False
+
 
 def test_config_loading():
     """Test configuration file loading."""
@@ -106,7 +114,7 @@ def test_config_loading():
         try:
             import yaml
         except ImportError:
-            print("  ⚠ Skipped (yaml not installed)")
+            print("  SKIP: yaml not installed")
             return True
         
         config_path = Path(__file__).parent / 'config' / 'drug_list.yaml'
@@ -115,24 +123,25 @@ def test_config_loading():
         
         assert 'tier1_core' in drug_config, "Should have tier1_core"
         assert 'metformin' in drug_config['tier1_core'], "Should have metformin"
-        print(f"  ✓ drug_list.yaml: {len(drug_config['tier1_core'])} drug classes")
+        print(f"  PASS: drug_list.yaml: {len(drug_config['tier1_core'])} drug classes")
         
         config_path = Path(__file__).parent / 'config' / 'ae_mapping.yaml'
         with open(config_path, 'r') as f:
             ae_config = yaml.safe_load(f)
         
         assert 'tier1_core_categories' in ae_config, "Should have tier1_core_categories"
-        print(f"  ✓ ae_mapping.yaml: {len(ae_config['tier1_core_categories'])} categories")
+        print(f"  PASS: ae_mapping.yaml: {len(ae_config['tier1_core_categories'])} categories")
         
         return True
     except Exception as e:
-        print(f"  ✗ Error: {e}")
+        print(f"  FAIL: Error: {e}")
         import traceback
         traceback.print_exc()
         return False
 
+
 def test_drug_normalizer():
-    """Test drug normalizer (if yaml available)."""
+    """Test drug normalizer."""
     print("\nTesting drug normalizer...")
     
     try:
@@ -144,26 +153,27 @@ def test_drug_normalizer():
         # Test normalization
         result = normalizer.normalize_drug_name("OZEMPIC")
         assert result == "SEMAGLUTIDE" or result is not None, "Should normalize brand name"
-        print(f"  ✓ normalize_drug_name: OZEMPIC -> {result}")
+        print(f"  PASS: normalize_drug_name: OZEMPIC -> {result}")
         
         result = normalizer.get_drug_class("METFORMIN")
         assert result == "metformin", "Should return drug class"
-        print(f"  ✓ get_drug_class: METFORMIN -> {result}")
+        print(f"  PASS: get_drug_class: METFORMIN -> {result}")
         
         return True
     except ImportError:
-        print("  ⚠ Skipped (yaml not installed)")
+        print("  SKIP: yaml not installed")
         return True
     except Exception as e:
-        print(f"  ✗ Error: {e}")
+        print(f"  FAIL: Error: {e}")
         import traceback
         traceback.print_exc()
         return False
 
+
 def main():
     """Run all tests."""
     print("="*60)
-    print("Testing FAERS Longevity Analysis Components")
+    print("FAERS Longevity Analysis - Test Suite")
     print("="*60)
     
     results = []
@@ -181,18 +191,18 @@ def main():
     total = len(results)
     
     for name, result in results:
-        status = "✓ PASS" if result else "✗ FAIL"
+        status = "PASS" if result else "FAIL"
         print(f"  {status}: {name}")
     
     print(f"\nTotal: {passed}/{total} tests passed")
     
     if passed == total:
-        print("\n🎉 All tests passed!")
+        print("\nAll tests passed.")
         return 0
     else:
-        print("\n⚠ Some tests failed. Check output above.")
+        print("\nSome tests failed. Check output above.")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())
-

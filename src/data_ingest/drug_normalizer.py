@@ -5,6 +5,11 @@ from typing import List, Dict, Set, Optional
 import yaml
 import pandas as pd
 from pathlib import Path
+try:
+    from difflib import SequenceMatcher
+    FUZZY_AVAILABLE = True
+except ImportError:
+    FUZZY_AVAILABLE = False
 
 
 class DrugNormalizer:
@@ -98,7 +103,38 @@ class DrugNormalizer:
             if target in drug_upper or drug_upper in target:
                 return target
         
+        # Fuzzy matching for misspellings (Phase 2 enhancement)
+        if FUZZY_AVAILABLE:
+            best_match = self._fuzzy_match(drug_upper, threshold=0.85)
+            if best_match:
+                return best_match
+        
         return None
+    
+    def _fuzzy_match(self, drug_name: str, threshold: float = 0.85) -> Optional[str]:
+        """
+        Fuzzy match drug name to handle misspellings.
+        
+        Args:
+            drug_name: Drug name to match
+            threshold: Similarity threshold (0-1)
+            
+        Returns:
+            Matched drug name or None
+        """
+        if not FUZZY_AVAILABLE:
+            return None
+        
+        best_match = None
+        best_ratio = 0.0
+        
+        for target in self.target_drugs:
+            ratio = SequenceMatcher(None, drug_name, target).ratio()
+            if ratio >= threshold and ratio > best_ratio:
+                best_ratio = ratio
+                best_match = target
+        
+        return best_match
     
     def get_drug_class(self, drug_name: str) -> Optional[str]:
         """

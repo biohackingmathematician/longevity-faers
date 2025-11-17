@@ -1,4 +1,9 @@
-"""Run ML model analysis (Notebook 03)."""
+"""
+Multi-Label Machine Learning Analysis Script
+
+Trains and evaluates multi-label classification models to predict adverse event
+categories from patient demographics, drug class, and polypharmacy features.
+"""
 
 import pandas as pd
 import numpy as np
@@ -9,8 +14,16 @@ import seaborn as sns
 from pathlib import Path
 import sys
 import yaml
+import logging
 
 sys.path.insert(0, str(Path(__file__).parent / 'src'))
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 from src.models.multilabel_classifier import (
     prepare_features,
@@ -23,9 +36,9 @@ from src.viz.roc_curves import plot_roc_curves, plot_feature_importance, plot_me
 sns.set_style('whitegrid')
 plt.rcParams['figure.figsize'] = (12, 8)
 
-print("="*60)
-print("Multi-Label AE Prediction Model")
-print("="*60)
+logger.info("="*60)
+logger.info("Multi-Label AE Prediction Model")
+logger.info("="*60)
 
 # Load config
 config_path = Path(__file__).parent / 'config' / 'data_config.yaml'
@@ -34,11 +47,10 @@ with open(config_path, 'r') as f:
 
 # Load ML dataset
 data_path = Path(__file__).parent / config['data_paths']['processed'] / 'cases_ml.csv'
-print(f"\nLoading ML dataset from {data_path}...")
+logger.info(f"Loading ML dataset from {data_path}")
 df = pd.read_csv(data_path)
 
-print(f"Data shape: {df.shape}")
-print(f"Columns: {list(df.columns)}")
+logger.info(f"Dataset shape: {df.shape[0]:,} samples, {df.shape[1]} features")
 
 # Define features and targets
 ae_categories = ['cardiovascular', 'metabolic', 'musculoskeletal', 'gastrointestinal', 'renal']
@@ -50,11 +62,11 @@ feature_cols = ['age_group', 'sex', 'drug_class', 'report_year',
 # Filter to available columns
 feature_cols = [col for col in feature_cols if col in df.columns]
 
-print(f"\nFeatures: {feature_cols}")
-print(f"Targets: {ae_categories}")
+logger.info(f"Features: {len(feature_cols)}")
+logger.info(f"Target categories: {len(ae_categories)}")
 
 # Prepare features
-print("\nPreparing features...")
+logger.info("Preparing feature matrix...")
 X, y, feature_info = prepare_features(
     df,
     feature_cols=feature_cols,
@@ -62,11 +74,11 @@ X, y, feature_info = prepare_features(
     categorical_cols=['age_group', 'sex', 'drug_class']
 )
 
-print(f"Features shape: {X.shape}")
-print(f"Targets shape: {y.shape}")
+logger.info(f"Feature matrix: {X.shape[0]:,} samples × {X.shape[1]} features")
+logger.info(f"Target matrix: {y.shape[0]:,} samples × {y.shape[1]} categories")
 
 # Time-based split
-print("\nSplitting data (time-based)...")
+logger.info("Splitting data (time-based)...")
 ml_split = config['ml_split']
 
 if 'report_year' in df.columns:
@@ -89,30 +101,27 @@ else:
     X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.3, random_state=42)
     X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)
 
-print(f"Train: {len(X_train)}, Val: {len(X_val)}, Test: {len(X_test)}")
+logger.info(f"Train: {len(X_train):,}, Validation: {len(X_val):,}, Test: {len(X_test):,}")
 
 # Train models
-print("\nTraining models...")
+logger.info("Training models...")
 models = train_baseline_models(X_train, y_train)
 
-print(f"Trained {len(models)} models:")
-for name in models.keys():
-    print(f"  - {name}")
+logger.info(f"Trained {len(models)} model(s): {', '.join(models.keys())}")
 
 # Evaluate models
-print("\nEvaluating models...")
+logger.info("Evaluating models on test set...")
 metrics_df = evaluate_models(models, X_test, y_test)
-print("\nModel Performance:")
-print(metrics_df)
+logger.info(f"\nModel Performance:\n{metrics_df.to_string()}")
 
 # Save metrics
 metrics_path = Path(__file__).parent / 'results' / 'tables' / 'ml_metrics.csv'
 metrics_path.parent.mkdir(parents=True, exist_ok=True)
 metrics_df.to_csv(metrics_path, index=False)
-print(f"\nSaved metrics to {metrics_path}")
+logger.info(f"Metrics saved to {metrics_path}")
 
 # Visualizations
-print("\nCreating visualizations...")
+logger.info("Generating visualizations...")
 figures_dir = Path(__file__).parent / 'results' / 'figures'
 figures_dir.mkdir(parents=True, exist_ok=True)
 
@@ -120,7 +129,7 @@ figures_dir.mkdir(parents=True, exist_ok=True)
 best_model_name = metrics_df.loc[metrics_df['macro_auc'].idxmax(), 'model']
 best_model = models[best_model_name]
 
-print(f"\nBest model: {best_model_name}")
+logger.info(f"Best performing model: {best_model_name}")
 
 y_pred_proba = best_model.predict_proba(X_test)
 if isinstance(y_pred_proba, list):
@@ -138,9 +147,9 @@ try:
     save_path = figures_dir / 'roc_curves_ml.png'
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.close()
-    print(f"  ✓ Saved ROC curves")
+    logger.info(f"Saved ROC curves: {save_path.name}")
 except Exception as e:
-    print(f"  ✗ Error creating ROC curves: {e}")
+    logger.error(f"Error creating ROC curves: {e}")
 
 # Feature importance
 try:
@@ -153,7 +162,7 @@ try:
     # Save feature importance
     importance_path = Path(__file__).parent / 'results' / 'tables' / 'feature_importance.csv'
     importance_df.to_csv(importance_path, index=False)
-    print(f"  ✓ Saved feature importance")
+    logger.info(f"Saved feature importance: {importance_path.name}")
     
     # Plot for top categories
     for category in ae_categories[:3]:
@@ -166,11 +175,11 @@ try:
             save_path = figures_dir / f'feature_importance_{category}.png'
             plt.savefig(save_path, dpi=300, bbox_inches='tight')
             plt.close()
-            print(f"  ✓ Saved feature importance plot for {category}")
+            logger.info(f"Saved feature importance plot: {save_path.name}")
         except Exception as e:
-            print(f"  ✗ Error creating feature importance plot for {category}: {e}")
+            logger.error(f"Error creating feature importance plot for {category}: {e}")
 except Exception as e:
-    print(f"  ✗ Error getting feature importance: {e}")
+    logger.error(f"Error getting feature importance: {e}")
 
 # Metrics comparison
 try:
@@ -178,11 +187,11 @@ try:
     save_path = figures_dir / 'metrics_comparison.png'
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.close()
-    print(f"  ✓ Saved metrics comparison")
+    logger.info(f"Saved metrics comparison: {save_path.name}")
 except Exception as e:
-    print(f"  ✗ Error creating metrics comparison: {e}")
+    logger.error(f"Error creating metrics comparison: {e}")
 
-print("\n" + "="*60)
-print("ML analysis complete!")
-print("="*60)
+logger.info("="*60)
+logger.info("ML analysis complete")
+logger.info("="*60)
 
