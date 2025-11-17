@@ -1,0 +1,93 @@
+# Longevity-relevant drugs for FAERS analysis
+# Format: generic_name -> [brand_names, active_ingredient_variants]
+
+tier1_core:
+  metformin:
+    generic: "METFORMIN"
+    brands:
+      - "GLUCOPHAGE"
+      - "GLUCOPHAGE XR"
+      - "FORTAMET"
+      - "GLUMETZA"
+    active_ingredients:
+      - "METFORMIN"
+      - "METFORMIN HYDROCHLORIDE"
+    drug_class: "metformin"
+  
+  glp1_agonists:
+    generic: ["SEMAGLUTIDE", "LIRAGLUTIDE", "DULAGLUTIDE"]
+    brands:
+      - "OZEMPIC"
+      - "WEGOVY"
+      - "RYBELSUS"
+      - "VICTOZA"
+      - "SAXENDA"
+      - "TRULICITY"
+    active_ingredients:
+      - "SEMAGLUTIDE"
+      - "LIRAGLUTIDE"
+      - "DULAGLUTIDE"
+    drug_class: "glp1"
+  
+  statins:
+    generic: ["ATORVASTATIN", "ROSUVASTATIN", "SIMVASTATIN"]
+    brands:
+      - "LIPITOR"
+      - "CRESTOR"
+      - "ZOCOR"
+    active_ingredients:
+      - "ATORVASTATIN"
+      - "ATORVASTATIN CALCIUM"
+      - "ROSUVASTATIN"
+      - "ROSUVASTATIN CALCIUM"
+      - "SIMVASTATIN"
+    drug_class: "statin"
+  
+  sglt2_inhibitors:
+    generic: ["EMPAGLIFLOZIN", "CANAGLIFLOZIN", "DAPAGLIFLOZIN"]
+    brands:
+      - "JARDIANCE"
+      - "INVOKANA"
+      - "FARXIGA"
+    active_ingredients:
+      - "EMPAGLIFLOZIN"
+      - "CANAGLIFLOZIN"
+      - "DAPAGLIFLOZIN"
+    drug_class: "sglt2"
+
+tier2_extended:
+  ace_inhibitors:
+    generic: ["LISINOPRIL", "LOSARTAN", "TELMISARTAN"]
+    brands:
+      - "PRINIVIL"
+      - "ZESTRIL"
+      - "COZAAR"
+      - "MICARDIS"
+    active_ingredients:
+      - "LISINOPRIL"
+      - "LOSARTAN"
+      - "LOSARTAN POTASSIUM"
+      - "TELMISARTAN"
+    drug_class: "ace_arb"
+  
+  rapamycin:
+    generic: "SIROLIMUS"
+    brands:
+      - "RAPAMUNE"
+    active_ingredients:
+      - "SIROLIMUS"
+    drug_class: "rapamycin"
+
+# Target drugs for MVP (Tier 1 only)
+target_drugs:
+  - "METFORMIN"
+  - "SEMAGLUTIDE"
+  - "LIRAGLUTIDE"
+  - "DULAGLUTIDE"
+  - "ATORVASTATIN"
+  - "ROSUVASTATIN"
+  - "SIMVASTATIN"
+  - "EMPAGLIFLOZIN"
+  - "CANAGLIFLOZIN"
+  - "DAPAGLIFLOZIN"
+

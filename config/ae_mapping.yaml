@@ -1,0 +1,185 @@
+# MedDRA Preferred Term (PT) to Adverse Event Category Mapping
+# This maps specific adverse event terms to high-level categories
+
+tier1_core_categories:
+  cardiovascular:
+    keywords:
+      - "MYOCARDIAL INFARCTION"
+      - "MYOCARDIAL"
+      - "INFARCTION"
+      - "STROKE"
+      - "CEREBROVASCULAR"
+      - "ARRHYTHMIA"
+      - "ATRIAL FIBRILLATION"
+      - "VENTRICULAR"
+      - "TACHYCARDIA"
+      - "BRADYCARDIA"
+      - "HEART FAILURE"
+      - "CARDIAC FAILURE"
+      - "HYPERTENSION"
+      - "HYPERTENSIVE"
+      - "ANGINA"
+      - "CARDIAC ARREST"
+      - "SUDDEN DEATH"
+      - "CARDIOMYOPATHY"
+      - "PERICARDIAL"
+      - "ENDOCARDITIS"
+    exact_matches:
+      - "MYOCARDIAL INFARCTION"
+      - "STROKE"
+      - "ATRIAL FIBRILLATION"
+      - "HEART FAILURE"
+      - "HYPERTENSION"
+      - "CARDIAC ARREST"
+      - "SUDDEN CARDIAC DEATH"
+      - "VENTRICULAR TACHYCARDIA"
+      - "ANGINA PECTORIS"
+
+  metabolic:
+    keywords:
+      - "HYPOGLYCEMIA"
+      - "HYPOGLYCAEMIA"
+      - "DIABETIC KETOACIDOSIS"
+      - "DKA"
+      - "LACTIC ACIDOSIS"
+      - "ACIDOSIS"
+      - "ELECTROLYTE"
+      - "HYPONATREMIA"
+      - "HYPERKALEMIA"
+      - "HYPOKALEMIA"
+      - "HYPERNATREMIA"
+      - "METABOLIC ACIDOSIS"
+      - "HYPERGLYCEMIA"
+      - "DIABETES"
+      - "INSULIN"
+    exact_matches:
+      - "HYPOGLYCEMIA"
+      - "DIABETIC KETOACIDOSIS"
+      - "LACTIC ACIDOSIS"
+      - "METABOLIC ACIDOSIS"
+      - "HYPONATREMIA"
+      - "HYPERKALEMIA"
+      - "HYPOKALEMIA"
+
+  musculoskeletal:
+    keywords:
+      - "MYOPATHY"
+      - "MYALGIA"
+      - "MUSCLE"
+      - "RHABDOMYOLYSIS"
+      - "MUSCULAR WEAKNESS"
+      - "MUSCLE WEAKNESS"
+      - "MYOSITIS"
+      - "TENDON"
+      - "ARTHRALGIA"
+      - "ARTHRITIS"
+      - "BONE"
+      - "FRACTURE"
+      - "OSTEOPOROSIS"
+    exact_matches:
+      - "MYOPATHY"
+      - "MYALGIA"
+      - "RHABDOMYOLYSIS"
+      - "MUSCULAR WEAKNESS"
+      - "MUSCLE WEAKNESS"
+      - "MYOSITIS"
+      - "TENDONITIS"
+      - "TENDINOPATHY"
+
+  gastrointestinal:
+    keywords:
+      - "NAUSEA"
+      - "VOMITING"
+      - "DIARRHEA"
+      - "DIARRHOEA"
+      - "ABDOMINAL"
+      - "PANCREATITIS"
+      - "GASTROINTESTINAL"
+      - "GI BLEEDING"
+      - "GASTRIC"
+      - "STOMACH"
+      - "CONSTIPATION"
+      - "DYSpePSIA"
+      - "FLATULENCE"
+    exact_matches:
+      - "NAUSEA"
+      - "VOMITING"
+      - "DIARRHEA"
+      - "PANCREATITIS"
+      - "GASTROINTESTINAL HAEMORRHAGE"
+      - "GASTROINTESTINAL BLEEDING"
+      - "ABDOMINAL PAIN"
+
+  renal:
+    keywords:
+      - "RENAL"
+      - "KIDNEY"
+      - "NEPHRO"
+      - "ACUTE KIDNEY INJURY"
+      - "AKI"
+      - "CHRONIC KIDNEY DISEASE"
+      - "CKD"
+      - "RENAL FAILURE"
+      - "RENAL IMPAIRMENT"
+      - "NEPHROPATHY"
+      - "PROTEINURIA"
+    exact_matches:
+      - "ACUTE KIDNEY INJURY"
+      - "RENAL FAILURE"
+      - "CHRONIC KIDNEY DISEASE"
+      - "RENAL IMPAIRMENT"
+      - "NEPHROPATHY"
+
+tier2_extended_categories:
+  neurocognitive_mood:
+    keywords:
+      - "DEPRESSION"
+      - "ANXIETY"
+      - "COGNITIVE"
+      - "MEMORY"
+      - "DEMENTIA"
+      - "FATIGUE"
+      - "INSOMNIA"
+      - "SUICIDAL"
+      - "MOOD"
+    exact_matches:
+      - "DEPRESSION"
+      - "ANXIETY"
+      - "COGNITIVE DISORDER"
+      - "MEMORY IMPAIRMENT"
+
+  hepatic:
+    keywords:
+      - "HEPATIC"
+      - "LIVER"
+      - "HEPATITIS"
+      - "HEPATOTOXICITY"
+      - "TRANAMINASE"
+      - "ALT"
+      - "AST"
+      - "BILIRUBIN"
+    exact_matches:
+      - "HEPATITIS"
+      - "HEPATIC FAILURE"
+      - "HEPATOTOXICITY"
+
+  dermatologic:
+    keywords:
+      - "RASH"
+      - "PRURITUS"
+      - "ITCHING"
+      - "DERMATITIS"
+      - "URTICARIA"
+    exact_matches:
+      - "RASH"
+      - "PRURITUS"
+      - "URTICARIA"
+
+# Categories to use for MVP analysis
+analysis_categories:
+  - cardiovascular
+  - metabolic
+  - musculoskeletal
+  - gastrointestinal
+  - renal
+
