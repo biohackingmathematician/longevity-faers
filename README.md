@@ -91,29 +91,52 @@ Jupyter notebooks are available for exploratory analysis:
 ## Project Structure
 
 ```
-faers-longevity-analysis/
-├── config/              # Configuration files
+longevity-faers/
+├── config/                      # Configuration files
 │   ├── drug_list.yaml          # Drug names and classifications
 │   ├── ae_mapping.yaml         # MedDRA PT → category mappings
 │   └── data_config.yaml        # Data processing parameters
-├── docs/                # Documentation
+├── docs/                        # Documentation
 │   ├── methods.md              # Statistical methodology
 │   ├── discussion.md           # Results interpretation
 │   └── faers_notes.md          # FAERS data structure notes
-├── notebooks/           # Jupyter notebooks
-├── scripts/             # Data processing scripts
+├── notebooks/                   # Jupyter notebooks
+│   ├── 01_explore_faers.ipynb
+│   ├── 02_disproportionality.ipynb
+│   └── 03_multilabel_model.ipynb
+├── scripts/                     # Data processing scripts
 │   ├── download_faers.py
 │   ├── unpack_faers.py
 │   └── build_dataset.py
-├── src/                 # Source code
-│   ├── data_ingest/     # Data loading and cleaning
-│   ├── features/        # Feature engineering
-│   ├── models/          # Statistical and ML models
-│   └── viz/             # Visualization functions
-├── results/             # Analysis outputs
-│   ├── figures/         # Visualizations
-│   └── tables/          # Results tables
-└── tests/               # Unit tests
+├── src/                         # Source code
+│   ├── data_ingest/            # Data loading and cleaning
+│   │   ├── dedupe_cases.py
+│   │   ├── demographics_cleaner.py
+│   │   ├── drug_normalizer.py
+│   │   └── load_faers.py
+│   ├── features/               # Feature engineering
+│   │   ├── ae_category_mapper.py
+│   │   └── feature_engineering.py
+│   ├── models/                 # Statistical and ML models
+│   │   ├── disproportionality.py
+│   │   └── multilabel_classifier.py
+│   └── viz/                    # Visualization functions
+│       ├── roc_curves.py
+│       └── volcano_plots.py
+├── results/                     # Analysis outputs
+│   ├── figures/                # Visualizations
+│   └── tables/                 # Results tables
+├── tests/                       # Unit tests
+│   └── test_disproportionality.py
+├── CITATION.cff                 # Citation metadata
+├── CONTRIBUTING.md              # Contribution guidelines
+├── LICENSE                      # MIT License
+├── README.md                    # This file
+├── pyproject.toml               # Project metadata
+├── requirements.txt             # Python dependencies
+├── run_disproportionality_analysis.py  # Disproportionality analysis script
+├── run_ml_analysis.py           # ML analysis script
+└── test_functionality.py        # Functional test suite
 ```
 
 ## Results
